@@ -1,0 +1,47 @@
+<form [formGroup]="txCalc" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">From address</label>
+    <select class="form-control"
+            id="exampleFormControlSelect1"
+            formControlName="from">
+      <option *ngFor="let el of addresses">{{el.address}}</option>
+    </select>
+    <small class="form-text text-muted">Address from your pool.</small>
+  </div>
+  <div class="form-group">
+    <label for="to">To address</label>
+    <input type="text" class="form-control" id="to" formControlName="to">
+    <small class="form-text text-muted">Address of the recipient.</small>
+  </div>
+  <div class="form-group">
+    <label for="value">Value</label>
+    <input type="number"
+           [step]="0.1"
+           class="form-control"
+           id="value"
+           formControlName="value">
+    <small class="form-text text-muted">Amount transmitted ether.</small>
+  </div>
+  <div class="form-group">
+    <input type="number"
+           class="form-control"
+           formControlName="gasPrice"
+           [step]="0.1">
+    <small class="form-text text-muted">Use gas price.</small>
+  </div>
+  <div class="form-group">
+    <input type="number"
+           class="form-control"
+           formControlName="gasLimit"
+           [step]="1000">
+    <small class="form-text text-muted">Use gas limit.</small>
+  </div>
+  <div class="form-group">
+    <input type="text"
+           class="form-control"
+           formControlName="data">
+    <small class="form-text text-muted">Contrac method byte code.</small>
+  </div>
+
+  <button class="btn btn-lg btn-info" (ngSubmit)="onSubmit()">send</button>
+</form>

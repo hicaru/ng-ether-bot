@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-sm-6">
+    <label for="gasPrice">gas price</label>
+    <input [value]="gasPrice / 10e8"
+           [step]="0.1"
+           (input)="onGasPrice($event.target.value)"
+           type="number"
+           id="gasPrice"
+           class="form-control">
+  </div>
+  <div class="col-sm-6">
+    <label for="gasLimit">gas limit</label>
+    <input [value]="gasLimit"
+           [step]="1000"
+           (input)="onGasLimit($event.target.value)"
+           type="number"
+           id="gasLimit"
+           class="form-control">
+  </div>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col-lg">address</th>
+        <th scope="col-lg">private key</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let address of addresses">
+        <td>{{address.address}}</td>
+        <td class="text-danger">{{address.privateKey}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,10 @@
+
+@mixin parallax($url) {
+  background: url($url);
+  position: relative;
+  height: 100%;
+  background-attachment: fixed;
+  background-position: top center;
+  background-size: cover;
+  z-index: 1;
+}

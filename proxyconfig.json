@@ -1,0 +1,8 @@
+{
+  "/*": {
+    "target": "ws://localhost:8999",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
