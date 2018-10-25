@@ -4,6 +4,12 @@ import { WSEvent, ISoketEvent } from './config';
 export function reducer(state: ISoketEvent, action: ISoketEvent) {
   switch (action.type) {
 
+    case WSEvent.ADDRESSES_SHOW:
+      return action;
+
+    case WSEvent.WALLET_INFO:
+      return action;
+
     case WSEvent.SEND_A_TRANSACTION:
       return action;
 

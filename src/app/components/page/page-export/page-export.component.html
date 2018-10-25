@@ -1,0 +1,18 @@
+<div class="row">  
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col-lg">address</th>
+        <th scope="col-lg">private key</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let address of returnedArray">
+        <td>{{address.address}}</td>
+        <td class="text-danger">{{address.privateKey}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination [totalItems]="addresses.length"
+              (pageChanged)="pageChanged($event)"></pagination>
+</div>

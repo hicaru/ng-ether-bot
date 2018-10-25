@@ -1,0 +1,8 @@
+<div class="jumbotron">
+  <h1 class="display-4">{{data.h1}}</h1>
+  <p class="lead">{{data.p}}</p>
+  <hr *ngIf="data.hr" class="my-4">
+  <a [href]="data.a.url"
+     target="_blanck"
+     class="btn btn-primary btn-lg">{{data.a.p}}</a>
+</div>

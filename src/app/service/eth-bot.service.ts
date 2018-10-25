@@ -22,10 +22,8 @@ export class EthBotService {
         return null;
       }
 
-      console.log(event);
-
       const data: ISoketEvent = JSON.parse(event.data);
-
+      console.log(data);
       if (data.code || data.error) {
         return null;
       }
@@ -77,7 +75,7 @@ export class EthBotService {
       }
 
       const dataSerialization = JSON.stringify({
-        type: +dispatchEvent.type,
+        type: dispatchEvent.type,
         body: dispatchEvent.body
       });
 

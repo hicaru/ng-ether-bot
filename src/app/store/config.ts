@@ -9,16 +9,24 @@ export enum Actions {
 }
 
 export enum WSEvent {
-  RUN = '0',
-  SEND_A_TRANSACTION = '1',
-  SEND_POOL_TRANSACTION = '2',
-  SYNCHRONIZATION = '3',
-  BALANCE = '4',
-  BALANCE_ALL = '5',
-  ADDRESSES_SHOW = '6',
-  SET_GAS_PRICE = '7',
-  SET_GAS_LIMIT = '8',
-  WALLET_INFO = '9'
+  RUN = 'RUN',
+
+  BALANCE = 'BALANCE',
+  BALANCE_ALL = 'BALANCEALL',
+  BALANCE_INFO = 'BALANCEINFO',
+  ADDRESSES_SHOW = 'ADDRESSESSHOW',
+  WALLET_INFO = 'WALLETINFO',
+
+  SET_GAS_PRICE = 'SETGASPRICE',
+  GET_GAS_PRICE = 'GETGASPRICE',
+  SET_GAS_LIMIT = 'SETGASLIMIT',
+  GET_GAS_LIMIT = 'GETGASLIMIT',
+
+  SYNCHRONIZATION = 'SYNCHRONIZATION',
+  SEND_A_TRANSACTION = 'SENDATRANSACTION',
+  SEND_POOL_TRANSACTION = 'SENDPOOLTRANSACTION',
+  ON_HASH = 'ONHASH',
+  ON_BLOCK = 'ONBLOCK'
 }
 
 export interface ISoketEvent extends Action {
@@ -29,7 +37,7 @@ export interface ISoketEvent extends Action {
 }
 
 export interface IAddresses {
-  id?: number;
   address: string;
-  privateKey: string;
+  balance?: number;
+  privateKey?: string;
 }
