@@ -1,5 +1,5 @@
 <div class="row">  
-  <table class="table">
+  <table class="table" *ngIf="addresses">
     <thead class="thead-dark">
       <tr>
         <th scope="col-lg">address</th>
@@ -13,6 +13,7 @@
       </tr>
     </tbody>
   </table>
-  <pagination [totalItems]="addresses.length"
+  <pagination *ngIf="addresses"
+              [totalItems]="addresses.length"
               (pageChanged)="pageChanged($event)"></pagination>
 </div>

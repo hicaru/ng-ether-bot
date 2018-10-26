@@ -57,7 +57,7 @@
   <div class="form-group col-sm-3">
       <label for="gasmin">gas price min</label>
       <input type="number"
-             [step]="1"
+             [step]="0.1"
              class="form-control"
              id="gasmin"
              formControlName="gasmin">
@@ -66,7 +66,7 @@
   <div class="form-group col-sm-3">
     <label for="gasmax">gas price max</label>
     <input type="number"
-            [step]="1"
+            [step]="0.1"
             class="form-control"
             id="gasmax"
             formControlName="gasmax">
@@ -113,4 +113,14 @@
   <button class="btn btn-lg btn-info col-sm-1" (ngSubmit)="onSubmit()">send</button>
 </form>
 
-<app-ui-jumbotron *ngIf="jumbotron" [data]="jumbotron"></app-ui-jumbotron>
+
+<div class="list-group" *ngIf="hashs">
+    <h1 class="text-success text-center">Transactions</h1>
+  
+    <a *ngFor="let hash of hashs"
+       target="_blanck"
+       [href]="hash.url"
+       [class]="hash.color + ' list-group-item list-group-item-action'">
+       {{hash.hash}}
+    </a>
+</div>

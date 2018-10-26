@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Observer } from 'rxjs';
 
-import { ISoketEvent } from '../store/config';
+import { ISoketEvent, WSEvent } from '../store/config';
 
 
 
@@ -23,15 +23,11 @@ export class EthBotService {
       }
 
       const data: ISoketEvent = JSON.parse(event.data);
-      console.log(data);
-      if (data.code || data.error) {
+      if (data.type === WSEvent.ERROR) {
         return null;
       }
 
-      this.store.dispatch({
-        type: data.type.toString(),
-        body: data.body
-      });
+      this.store.dispatch(data);
     });
 
     this.onSendEvent();
@@ -74,10 +70,7 @@ export class EthBotService {
         return null;
       }
 
-      const dataSerialization = JSON.stringify({
-        type: dispatchEvent.type,
-        body: dispatchEvent.body
-      });
+      const dataSerialization = JSON.stringify(dispatchEvent);
 
       this.ws.send(dataSerialization);
     });

@@ -22,7 +22,7 @@ export class PageSyncComponent implements OnInit {
     skip: ['', Validators.required]
   });
   public addresses: IAddresses[];
-
+  public hashs: {hash: string, color: string, url: string}[] = [];
   private redux: Observable<ISoketEvent> = this.store.select('etherStore');
   public jumbotron: IJumbotron;
 
@@ -30,13 +30,58 @@ export class PageSyncComponent implements OnInit {
               private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.addresses = [
-      { address: '0xA98060409a31FdF92754ADD44645d273578185C7' },
-      { address: '0xA98060409a31FdF92754ADD44645d273578185C7' },
-      { address: '0xA98060409a31FdF92754ADD44645d273578185C7' },
-      { address: '0xA98060409a31FdF92754ADD44645d273578185C7' },
-      { address: '0xA98060409a31FdF92754ADD44645d273578185C7' }
-    ];
+    setTimeout(() => {
+      this.store.dispatch({ type: WSEvent.ADDRESSES_SHOW });
+    }, 500);
+
+    this.redux.subscribe(event => {
+      if (!event) {
+        return null;
+      }
+
+      switch (event.type) {
+
+        case WSEvent.WALLET_INFO:
+          if (!this.addresses) {
+            this.addresses = event.body;
+            this.txCalc.patchValue({
+              address: this.addresses[0]['address'],
+              take: 100,
+              skip: 0
+            });
+          }
+          break;
+
+        case WSEvent.RUN:
+          this.addresses = event.body['addresses'];
+          this.txCalc.patchValue({
+            address: this.addresses[0]['address'],
+            take: 100,
+            skip: 0
+          });
+          break;
+
+        case WSEvent.ON_HASH:
+          this.hashs.push({
+            hash: event.body['hash'],
+            color: '',
+            url: 'https://kovan.etherscan.io/tx/' + event.body['hash']
+          });
+          break;
+        case WSEvent.ON_BLOCK:
+          this.hashs.filter(el => {
+            if (el.hash === event.body['block']['transactionHash']) {
+              el.color = 'bg-success';
+            }
+
+            return el;
+          });
+          break;
+
+        default:
+          break;
+      }
+    });
   }
 
   public onSubmit() {
@@ -48,7 +93,7 @@ export class PageSyncComponent implements OnInit {
           skip: this.txCalc.value['skip']
         }
       };
-      console.log(fBody);
+      this.store.dispatch({ type: WSEvent.SYNCHRONIZATION, body: fBody });
     }
   }
 

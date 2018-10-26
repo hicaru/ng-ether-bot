@@ -35,3 +35,14 @@
 
   <button class="btn btn-lg btn-info" (ngSubmit)="onSubmit()">make sync</button>
 </form>
+
+<div class="list-group" *ngIf="hashs">
+  <h1 class="text-success text-center">Transactions</h1>
+
+  <a *ngFor="let hash of hashs"
+     target="_blanck"
+     [href]="hash.url"
+     [class]="hash.color + ' list-group-item list-group-item-action'">
+     {{hash.hash}}
+  </a>
+</div>

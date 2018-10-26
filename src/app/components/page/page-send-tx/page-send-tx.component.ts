@@ -32,9 +32,12 @@ export class PageSendTxComponent implements OnInit {
               private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.store.dispatch({
-      type: WSEvent.WALLET_INFO
-    });
+    setTimeout(() => {
+      this.store.dispatch({ type: WSEvent.ADDRESSES_SHOW });
+      this.store.dispatch({ type: WSEvent.SET_GAS_PRICE, body: 1 });
+      this.store.dispatch({ type: WSEvent.SET_GAS_LIMIT, body: 1 });
+    }, 500);
+
     this.redux.subscribe(event => {
       if (!event) {
         return null;
@@ -42,18 +45,59 @@ export class PageSendTxComponent implements OnInit {
 
       switch (event.type) {
 
-        case WSEvent.ADDRESSES_SHOW:
-          this.addresses = event.body['addresses'];
+        case WSEvent.WALLET_INFO:
+          if (!this.addresses) {
+            this.addresses = event.body;
+            this.txCalc.patchValue({
+              from: this.addresses[0]['address'],
+              value: 0
+            });
+          }
           break;
 
         case WSEvent.RUN:
           this.addresses = event.body['addresses'];
           this.txCalc.setValue({
-            'from': event.body['addresses'][0]['address'],
+            'from': this.addresses[0]['address'],
             'gasPrice': event.body['gasPrice'] / 10e8,
             'gasLimit': event.body['gasLimit'],
-            'to': '', 'value': 0.1, 'data': ''
+            'to': '', 'value': 0, 'data': ''
           });
+          break;
+
+        case WSEvent.GET_GAS_LIMIT:
+          this.txCalc.patchValue({ gasLimit: event.body });
+          break;
+
+        case WSEvent.GET_GAS_PRICE:
+          this.txCalc.patchValue({ gasPrice: event.body / 10e8 });
+          break;
+
+        case WSEvent.ON_HASH:
+          const hash = event.body['hash'];
+          this.jumbotron = {
+            h1: 'Transaction created',
+            p: hash,
+            a: {
+              url: 'https://kovan.etherscan.io/tx/' + hash,
+              p: 'show in etherscan'
+            }
+          };
+          break;
+        case WSEvent.ON_BLOCK:
+          this.jumbotron = {
+            h1: 'Transaction block',
+            p: `blockNumber: ${event.body['block']['blockNumber']}, ` +
+               `from: ${event.body['block']['from']}, ` +
+               `to: ${event.body['block']['to']}, ` +
+               `gasUsed: ${event.body['block']['gasUsed']}, ` +
+               `status: ${event.body['block']['status']}, ` +
+               `transactionHash: ${event.body['block']['transactionHash']}, `,
+            a: {
+              url: 'https://kovan.etherscan.io/tx/' + event.body['block']['transactionHash'],
+              p: 'show in etherscan'
+            }
+          };
           break;
 
         default:
@@ -67,16 +111,7 @@ export class PageSendTxComponent implements OnInit {
       const fBody = this.txCalc.value;
       fBody['gasPrice'] *= 10e8;
       fBody['value'] *= 10e17;
-      console.log(fBody);
-      const hash = '0xea5664f6bd0aa14804601855319a7fa6c438cc098eb17a666bed3250aa0b8a08';
-      this.jumbotron = {
-        h1: 'Transaction created',
-        p: hash,
-        a: {
-          url: 'https://kovan.etherscan.io/tx/' + hash,
-          p: 'show in etherscan'
-        }
-      };
+
       this.store.dispatch({
         type: WSEvent.SEND_A_TRANSACTION,
         body: fBody

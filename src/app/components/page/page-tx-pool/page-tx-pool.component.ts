@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 
-import { ISoketEvent } from 'src/app/store/config';
-import { IJumbotron } from '../../ui/ui-jumbotron/ui-jumbotron.component';
+import { ISoketEvent, WSEvent } from 'src/app/store/config';
 
 
 @Component({
@@ -15,6 +14,7 @@ import { IJumbotron } from '../../ui/ui-jumbotron/ui-jumbotron.component';
 })
 export class PageTxPoolComponent implements OnInit {
 
+  public hashs: {hash: string, color: string, url: string}[] = [];
   public txCalc = this.fb.group({
     to: ['', Validators.required],
 
@@ -34,12 +34,59 @@ export class PageTxPoolComponent implements OnInit {
   });
 
   private redux: Observable<ISoketEvent> = this.store.select('etherStore');
-  public jumbotron: IJumbotron;
 
   constructor(private store: Store<ISoketEvent>,
               private fb: FormBuilder) {}
 
   ngOnInit() {
+    setTimeout(() => {
+      this.store.dispatch({ type: WSEvent.SET_GAS_PRICE, body: 1 });
+    }, 500);
+
+    this.txCalc.patchValue({
+      limit: 100,
+      ofset: 0,
+      min: 0,
+      max: 1,
+      timemin: 100,
+      timemax: 10000
+    });
+
+    this.redux.subscribe(event => {
+      if (!event) {
+        return null;
+      }
+
+      switch (event.type) {
+
+        case WSEvent.ON_HASH:
+          this.hashs.push({
+            hash: event.body['hash'],
+            color: '',
+            url: 'https://kovan.etherscan.io/tx/' + event.body['hash']
+          });
+          break;
+        case WSEvent.ON_BLOCK:
+          this.hashs.filter(el => {
+            if (el.hash === event.body['block']['transactionHash']) {
+              el.color = 'bg-success';
+            }
+
+            return el;
+          });
+          break;
+
+        case WSEvent.GET_GAS_PRICE:
+          this.txCalc.patchValue({
+            gasmin: event.body / 10e8,
+            gasmax: event.body / 10e8
+          });
+          break;
+
+        default:
+          break;
+      }
+    });
   }
 
   public onSubmit() {
@@ -62,16 +109,7 @@ export class PageTxPoolComponent implements OnInit {
         }
       };
 
-      const hash = '0xea5664f6bd0aa14804601855319a7fa6c438cc098eb17a666bed3250aa0b8a08';
-      this.jumbotron = {
-        h1: 'Transaction created',
-        p: hash,
-        a: {
-          url: 'https://kovan.etherscan.io/tx/' + hash,
-          p: 'show in etherscan'
-        }
-      };
-      console.log(fBody);
+      this.store.dispatch({ type: WSEvent.SEND_POOL_TRANSACTION, body: fBody });
     }
   }
 

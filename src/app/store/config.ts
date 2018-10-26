@@ -26,7 +26,9 @@ export enum WSEvent {
   SEND_A_TRANSACTION = 'SENDATRANSACTION',
   SEND_POOL_TRANSACTION = 'SENDPOOLTRANSACTION',
   ON_HASH = 'ONHASH',
-  ON_BLOCK = 'ONBLOCK'
+  ON_BLOCK = 'ONBLOCK',
+
+  ERROR = 'ERROR'
 }
 
 export interface ISoketEvent extends Action {

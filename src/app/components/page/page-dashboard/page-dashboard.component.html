@@ -8,7 +8,7 @@
            id="gasPrice"
            class="form-control">
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-6" *ngIf="returnedArray && addresses">
     <label for="gasLimit">gas limit</label>
     <input [value]="gasLimit"
            [step]="1000"
@@ -28,10 +28,11 @@
     <tbody>
       <tr *ngFor="let address of returnedArray">
         <td>{{address.address}}</td>
-        <td class="text-danger">{{address.balance}}ETH</td>
+        <td class="text-danger">{{address.balance}}</td>
       </tr>
     </tbody>
   </table>
-  <pagination [totalItems]="addresses.length"
+  <pagination *ngIf="returnedArray && addresses"
+              [totalItems]="addresses.length"
               (pageChanged)="pageChanged($event)"></pagination>
 </div>
