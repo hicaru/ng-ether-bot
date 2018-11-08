@@ -6,6 +6,7 @@ import { Validators } from '@angular/forms';
 
 import { ISoketEvent, WSEvent } from 'src/app/store/config';
 
+declare const web3: any;
 
 @Component({
   selector: 'app-page-tx-pool',
@@ -21,8 +22,8 @@ export class PageTxPoolComponent implements OnInit {
     limit: ['', Validators.required],
     ofset: ['', Validators.required],
 
-    min: ['', Validators.required],
-    max: ['', Validators.required],
+    min: [''],
+    max: [''],
 
     gasmin: ['', Validators.required],
     gasmax: ['', Validators.required],
@@ -94,21 +95,21 @@ export class PageTxPoolComponent implements OnInit {
       const fBody = {
         address: this.txCalc.value['to'],
         data: {
-          take: this.txCalc.value['limit'],
-          skip: this.txCalc.value['ofset']
+          take: +this.txCalc.value['limit'],
+          skip: +this.txCalc.value['ofset']
         },
-        min: this.txCalc.value['min'] * 10e18,
-        max: this.txCalc.value['max'] * 10e18,
+        min: +web3.toWei(this.txCalc.value['min']),
+        max: +web3.toWei(this.txCalc.value['max']),
         gas: {
-          max: this.txCalc.value['gasmax'] * 10e8,
-          min: this.txCalc.value['gasmin'] * 10e8
+          max: +web3.toWei(this.txCalc.value['gasmax'], 'gwei'),
+          min: +web3.toWei(this.txCalc.value['gasmin'], 'gwei')
         },
         time: {
-          max: this.txCalc.value['timemax'],
-          min: this.txCalc.value['timemin']
-        }
+          max: +this.txCalc.value['timemax'],
+          min: +this.txCalc.value['timemin']
+        },
+        contractCode: this.txCalc.value['data']
       };
-
       this.store.dispatch({ type: WSEvent.SEND_POOL_TRANSACTION, body: fBody });
     }
   }

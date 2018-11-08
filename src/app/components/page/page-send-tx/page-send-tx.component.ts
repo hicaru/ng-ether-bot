@@ -7,6 +7,7 @@ import { Validators } from '@angular/forms';
 import { ISoketEvent, WSEvent, IAddresses } from 'src/app/store/config';
 import { IJumbotron } from '../../ui/ui-jumbotron/ui-jumbotron.component';
 
+declare const web3: any;
 
 @Component({
   selector: 'app-page-send-tx',
@@ -18,7 +19,7 @@ export class PageSendTxComponent implements OnInit {
   public txCalc = this.fb.group({
     from: ['', Validators.required],
     to: ['', Validators.required],
-    value: ['', Validators.required],
+    value: [''],
     gasPrice: ['', Validators.required],
     gasLimit: ['', Validators.required],
     data: ['']
@@ -109,8 +110,8 @@ export class PageSendTxComponent implements OnInit {
   public onSubmit() {
     if (this.txCalc.status === 'VALID') {
       const fBody = this.txCalc.value;
-      fBody['gasPrice'] *= 10e8;
-      fBody['value'] *= 10e17;
+      fBody['gasPrice'] = web3.toWei(fBody['gasPrice'], 'Gwei');
+      fBody['value'] = web3.toWei(fBody['value'], 'ether');
 
       this.store.dispatch({
         type: WSEvent.SEND_A_TRANSACTION,
