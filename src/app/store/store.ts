@@ -13,6 +13,11 @@ export function reducer(state: ISoketEvent, action: ISoketEvent) {
     case WSEvent.SEND_A_TRANSACTION:
       return action;
 
+    case WSEvent.WALLET_GET_PRIVATE:
+      return action;
+    case WSEvent.WALLET_EXPORT:
+      return action;
+
     case WSEvent.SEND_POOL_TRANSACTION:
       return action;
 

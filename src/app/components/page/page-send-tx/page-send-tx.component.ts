@@ -27,6 +27,7 @@ export class PageSendTxComponent implements OnInit {
   public addresses: IAddresses;
 
   private redux: Observable<ISoketEvent> = this.store.select('etherStore');
+
   public jumbotron: IJumbotron;
 
   constructor(private store: Store<ISoketEvent>,

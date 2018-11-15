@@ -19,6 +19,10 @@ export class PageExportComponent implements OnInit {
   constructor(private store: Store<ISoketEvent>) { }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.store.dispatch({ type: WSEvent.WALLET_GET_PRIVATE });
+    }, 500);
+
     this.redux.subscribe(event => {
       if (!event) {
         return null;
@@ -26,8 +30,8 @@ export class PageExportComponent implements OnInit {
 
       switch (event.type) {
 
-        case WSEvent.RUN:
-          this.addresses = event.body['addresses'];
+        case WSEvent.WALLET_EXPORT:
+          this.addresses = event.body;
           this.returnedArray = this.addresses.slice(0, 10);
           break;
 
