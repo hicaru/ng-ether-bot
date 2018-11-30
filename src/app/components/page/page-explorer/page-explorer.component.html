@@ -1,0 +1,8 @@
+<div class="row">
+  <ul class="list-group col-sm-6">
+    <li class="list-group-item"
+        *ngFor="let blockNumber of lostBlocks | async">
+      {{blockNumber}}
+      </li>
+  </ul>
+</div>

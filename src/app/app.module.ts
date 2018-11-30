@@ -14,6 +14,7 @@ import { UiJumbotronComponent } from './components/ui/ui-jumbotron/ui-jumbotron.
 import { PageTxPoolComponent } from './components/page/page-tx-pool/page-tx-pool.component';
 import { PageSyncComponent } from './components/page/page-sync/page-sync.component';
 import { PageExportComponent } from './components/page/page-export/page-export.component';
+import { PageExplorerComponent } from './components/page/page-explorer/page-explorer.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { PageExportComponent } from './components/page/page-export/page-export.c
     UiJumbotronComponent,
     PageTxPoolComponent,
     PageSyncComponent,
-    PageExportComponent
+    PageExportComponent,
+    PageExplorerComponent
   ],
   imports: [
     BrowserModule,

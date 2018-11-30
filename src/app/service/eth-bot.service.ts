@@ -11,13 +11,13 @@ import { ISoketEvent, WSEvent } from '../store/config';
 })
 export class EthBotService {
 
-  private wsUtl = 'ws://localhost:8999';
+  private wsUrl = 'ws://localhost:8999';
   private ws: WebSocket;
   private subject: Subject<MessageEvent>;
   private redux: Observable<ISoketEvent> = this.store.select('etherStore');
 
   constructor(private store: Store<ISoketEvent>) {
-    this.connect(this.wsUtl).subscribe(event => {
+    this.connect(this.wsUrl).subscribe(event => {
       if (!event.data) {
         return null;
       }
