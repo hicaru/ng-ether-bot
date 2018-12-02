@@ -15,6 +15,9 @@ import { PageTxPoolComponent } from './components/page/page-tx-pool/page-tx-pool
 import { PageSyncComponent } from './components/page/page-sync/page-sync.component';
 import { PageExportComponent } from './components/page/page-export/page-export.component';
 import { PageExplorerComponent } from './components/page/page-explorer/page-explorer.component';
+import { PageHashComponent } from './components/page/page-explorer/page-hash/page-hash.component';
+import { PageBlockComponent } from './components/page/page-explorer/page-block/page-block.component';
+import { PageAddressComponent } from './components/page/page-explorer/page-address/page-address.component';
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { PageExplorerComponent } from './components/page/page-explorer/page-expl
     PageTxPoolComponent,
     PageSyncComponent,
     PageExportComponent,
-    PageExplorerComponent
+    PageExplorerComponent,
+    PageHashComponent,
+    PageBlockComponent,
+    PageAddressComponent
   ],
   imports: [
     BrowserModule,

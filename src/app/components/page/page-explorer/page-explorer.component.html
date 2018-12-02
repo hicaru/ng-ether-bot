@@ -1,8 +1,49 @@
 <div class="row">
-  <ul class="list-group col-sm-6">
-    <li class="list-group-item"
-        *ngFor="let blockNumber of lostBlocks | async">
-      {{blockNumber}}
-      </li>
-  </ul>
+  <div class="form-group col-lg-3">
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">address:</span>
+      </div>
+      <input #address type="text" class="form-control">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary"
+                [routerLink]="'address/' + address.value"
+                type="button">show</button>
+      </div>
+    </div>
+
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">hash:</span>
+      </div>
+      <input #hash type="text" class="form-control">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary"
+                [routerLink]="'hash/' + hash.value"
+                type="button">show</button>
+      </div>
+    </div>
+
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">block:</span>
+      </div>
+      <input #block type="number" class="form-control">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary"
+                [routerLink]="'block/' + block.value"
+                type="button">show</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="list-group col-sm-6">
+    <h1 class="text-success text-center">last {{countOfBlocks}} blocks</h1>
+  
+    <a *ngFor="let blockNumber of lostBlocks"
+       routerLink="block/{{blockNumber}}"
+       class="list-group-item list-group-item-action">
+       block number: {{blockNumber}}
+    </a>
+  </div>
 </div>
