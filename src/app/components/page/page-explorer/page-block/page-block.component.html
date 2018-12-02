@@ -1,3 +1,42 @@
-<p>
-  page-block works!
-</p>
+<div class="jumbotron" *ngIf="block">
+  <h1 class="display-4">block number: {{block.number}}</h1>
+  <p class="lead">difficulty: {{block.difficulty}}</p>
+  <hr class="my-4">
+  <p class="lead">extraData: {{block.extraData}}</p>
+  <hr class="my-4">
+  <p class="lead">gasLimit: {{block.gasLimit}}</p>
+  <hr class="my-4">
+  <p class="lead">gasUsed: {{block.gasUsed}}</p>
+  <hr class="my-4">
+  <p class="lead">hash: {{block.hash}}</p>
+  <hr class="my-4">
+  <p class="lead">miner: {{block.miner}}</p>
+  <hr class="my-4">
+  <p class="lead">mixHash: {{block.mixHash}}</p>
+  <hr class="my-4">
+  <p class="lead">nonce: {{block.nonce}}</p>
+  <hr class="my-4">
+  <p class="lead">parentHash: {{block.parentHash}}</p>
+  <hr class="my-4">
+  <p class="lead">receiptsRoot: {{block.receiptsRoot}}</p>
+  <hr class="my-4">
+  <p class="lead">size: {{block.size}}</p>
+  <hr class="my-4">
+  <p class="lead">stateRoot: {{block.stateRoot}}</p>
+  <hr class="my-4">
+  <p class="lead">timestamp: {{block.timestamp}}</p>
+  <hr class="my-4">
+  <p class="lead">totalDifficulty: {{block.totalDifficulty}}</p>
+  <hr class="my-4">
+  <p class="lead">transactionsRoot: {{block.transactionsRoot}}</p>
+
+  <div *ngIf="block.transactions.length > 1">
+    <hr class="my-4">
+    <h2 class="display-4">transactions</h2>
+    <a class="btn btn-primary btn-lg"
+      *ngFor="let tx of block.transactions"
+      [routerLink]="'/explorer/hash/' + tx">
+      {{tx}}
+    </a>
+  </div>
+</div>

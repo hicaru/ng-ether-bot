@@ -70,7 +70,7 @@ export class EthBotService {
         return null;
       }
 
-      const dataSerialization = JSON.stringify(dispatchEvent);
+      const dataSerialization = JSON.stringify(dispatchEvent);      
 
       this.ws.send(dataSerialization);
     });

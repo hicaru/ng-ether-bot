@@ -1,3 +1,34 @@
-<p>
-  page-hash works!
-</p>
+<div class="jumbotron" *ngIf="transaction">
+  <h1 class="display-4">Transaction</h1>
+  <a class="btn btn-primary btn-lg"
+     [routerLink]="'/explorer/block/' + transaction.blockNumber">
+    block number: {{transaction.blockNumber}}
+  </a>
+  <hr class="my-4">
+  <a class="btn btn-primary btn-lg"
+     [routerLink]="'/explorer/address/' + transaction.from">
+     from: {{transaction.from}}
+  </a>
+  <hr class="my-4">
+  <a class="btn btn-primary btn-lg"
+     [routerLink]="'/explorer/address/' + transaction.to">
+     to: {{transaction.to}}
+  </a>
+  <hr class="my-4">
+  <p class="lead">hash: {{transaction.hash}}</p>
+  <hr class="my-4">
+  <p class="lead">block hash: {{transaction.blockHash}}</p>
+  <hr class="my-4">
+  <p class="lead">gas: {{transaction.gas}}</p>
+  <hr class="my-4">
+  <p class="lead">gasPrice: {{transaction.gasPrice}}</p>
+  <hr class="my-4">
+  <p class="lead">input: {{transaction.input}}</p>
+  <hr class="my-4">
+  <p class="lead">nonce: {{transaction.nonce}}</p>
+  <hr class="my-4">
+  <p class="lead">transactionIndex: {{transaction.transactionIndex}}</p>
+  <hr class="my-4">
+  <p class="lead">value: {{transaction.value}}</p>
+  <hr class="my-4">
+</div>
