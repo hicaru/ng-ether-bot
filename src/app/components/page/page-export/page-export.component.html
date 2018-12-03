@@ -8,7 +8,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let address of returnedArray">
-        <td>{{address.address}}</td>
+        <td>
+          <a [routerLink]="'/explorer/address/' + address.address">
+            {{address.address}}
+          </a>
+        </td>
         <td class="text-danger">{{address.privateKey}}</td>
       </tr>
     </tbody>

@@ -1,3 +1,8 @@
-<p>
-  page-address works!
-</p>
+<div class="jumbotron" *ngIf="addressInfo">
+    <p class="lead">address: {{address}}</p>
+    <hr class="my-4">
+    <p class="lead">nonce: {{addressInfo.nonce}}</p>
+    <hr class="my-4">
+    <p class="lead">balance: {{addressInfo.balance}}</p>
+</div>
+  

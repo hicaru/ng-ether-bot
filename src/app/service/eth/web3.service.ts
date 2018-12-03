@@ -10,8 +10,9 @@ declare const Web3: Web3Interfaces.IWeb3 | any;
 export class Web3Service {
 
   private providers = 'ws://127.0.0.1:8546';
-  private web3 = new Web3(this.providers);
+  private web3: Web3Interfaces.IWeb3 = new Web3(this.providers);
 
+  public utils: Web3Interfaces.IUtils = this.web3.utils;
   public blockEvents = new Observable(observer => {
     this.web3.eth.subscribe('newBlockHeaders', (err, event) => {
       if (err) {
@@ -46,6 +47,16 @@ export class Web3Service {
 
   public getTransaction(transactionHash: string): Promise<Web3Interfaces.ITransaction> {
     return this.web3.eth.getTransaction(transactionHash);
+  }
+
+  public async getAddress(address: string) {
+    const nonce = await this.web3.eth.getTransactionCount(address);
+    const balance = await this.web3.eth.getBalance(address);
+
+    return {
+      nonce: nonce,
+      balance: balance
+    };
   }
 
 }

@@ -6,8 +6,9 @@ import { Validators } from '@angular/forms';
 
 import { ISoketEvent, WSEvent, IAddresses } from 'src/app/store/config';
 import { IJumbotron } from '../../ui/ui-jumbotron/ui-jumbotron.component';
+import { Web3Interfaces } from '../../../service/eth/web3-interface';
 
-declare const Web3: any;
+declare const Web3: Web3Interfaces.IWeb3;
 
 @Component({
   selector: 'app-page-send-tx',
@@ -27,7 +28,7 @@ export class PageSendTxComponent implements OnInit {
   public addresses: IAddresses;
 
   private redux: Observable<ISoketEvent> = this.store.select('etherStore');
-  private utils = Web3.utils;
+  private utils: Web3Interfaces.IUtils = Web3.utils;
 
   public jumbotron: IJumbotron;
 
@@ -44,7 +45,7 @@ export class PageSendTxComponent implements OnInit {
     this.redux.subscribe(event => this.onStoreEvent(event));
   }
 
-  private onStoreEvent(event): void {
+  private onStoreEvent(event: ISoketEvent): void {
     if (!event) {
       return null;
     }
@@ -65,7 +66,7 @@ export class PageSendTxComponent implements OnInit {
         this.addresses = event.body['addresses'];
         this.txCalc.setValue({
           'from': this.addresses[0]['address'],
-          'gasPrice': this.utils.fromWei(event.body['gasPrice'], 'Gwei'),
+          'gasPrice': this.utils.fromWei(`${event.body['gasPrice']}`, 'Gwei'),
           'gasLimit': event.body['gasLimit'],
           'to': '', 'value': 0, 'data': ''
         });
@@ -76,7 +77,9 @@ export class PageSendTxComponent implements OnInit {
         break;
 
       case WSEvent.GET_GAS_PRICE:
-        this.txCalc.patchValue({ gasPrice: this.utils.fromWei(event.body, 'Gwei') });
+        this.txCalc.patchValue({
+          gasPrice: this.utils.fromWei(`${event.body}`, 'Gwei')
+        });
         break;
 
       case WSEvent.ON_HASH:
@@ -114,8 +117,8 @@ export class PageSendTxComponent implements OnInit {
   public onSubmit() {
     if (this.txCalc.status === 'VALID') {
       const fBody = this.txCalc.value;
-      fBody['gasPrice'] = this.utils.toWei(fBody['gasPrice'], 'Gwei');
-      fBody['value'] = this.utils.toWei(fBody['value'], 'ether');
+      fBody['gasPrice'] = this.utils.toWei(`${fBody['gasPrice']}`, 'Gwei');
+      fBody['value'] = this.utils.toWei(`${fBody['value']}`, 'ether');
 
       this.store.dispatch({
         type: WSEvent.SEND_A_TRANSACTION,
