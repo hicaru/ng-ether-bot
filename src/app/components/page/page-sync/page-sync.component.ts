@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 
-import { ISoketEvent, WSEvent, IAddresses } from 'src/app/store/config';
+import { ISoketEvent, WSEvent } from 'src/app/store/config';
 import { IJumbotron } from '../../ui/ui-jumbotron/ui-jumbotron.component';
 
 
@@ -21,7 +21,7 @@ export class PageSyncComponent implements OnInit {
     take: ['', Validators.required],
     skip: ['', Validators.required]
   });
-  public addresses: IAddresses[];
+  public addresses: string[];
   public hashs: {hash: string, color: string, url: string}[] = [];
   private redux: Observable<ISoketEvent> = this.store.select('etherStore');
   public jumbotron: IJumbotron;
@@ -45,7 +45,7 @@ export class PageSyncComponent implements OnInit {
           if (!this.addresses) {
             this.addresses = event.body;
             this.txCalc.patchValue({
-              address: this.addresses[0]['address'],
+              address: this.addresses[0],
               take: 100,
               skip: 0
             });
@@ -55,7 +55,7 @@ export class PageSyncComponent implements OnInit {
         case WSEvent.RUN:
           this.addresses = event.body['addresses'];
           this.txCalc.patchValue({
-            address: this.addresses[0]['address'],
+            address: this.addresses[0],
             take: 100,
             skip: 0
           });
