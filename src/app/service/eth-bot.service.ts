@@ -4,14 +4,14 @@ import { Observable, Subject, Observer } from 'rxjs';
 
 import { ISoketEvent, WSEvent } from '../store/config';
 
-
+declare const wallet: any;
 
 @Injectable({
   providedIn: 'root'
 })
 export class EthBotService {
 
-  private wsUrl = 'ws://localhost:8999';
+  private wsUrl = wallet.ws;
   private ws: WebSocket;
   private subject: Subject<MessageEvent>;
   private redux: Observable<ISoketEvent> = this.store.select('etherStore');

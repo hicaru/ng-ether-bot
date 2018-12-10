@@ -4,12 +4,13 @@ import { Web3Interfaces } from './web3-interface';
 import { Observable } from 'rxjs';
 
 declare const Web3: Web3Interfaces.IWeb3 | any;
+declare const wallet: any;
 
 
 @Injectable({ providedIn: 'root' })
 export class Web3Service {
 
-  private providers = 'ws://127.0.0.1:8546';
+  private providers = wallet.provider;
   private web3: Web3Interfaces.IWeb3 = new Web3(this.providers);
 
   public utils: Web3Interfaces.IUtils = this.web3.utils;
